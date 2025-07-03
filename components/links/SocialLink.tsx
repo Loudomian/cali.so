@@ -11,6 +11,7 @@ import {
   type IconProps,
   MailIcon,
   TelegramIcon,
+  TikTokIcon,
   TwitterIcon,
   YouTubeIcon,
 } from '~/assets'
@@ -25,6 +26,7 @@ type Platform =
   | 'bilibili'
   | 'mail'
   | 'rss'
+  | 'tiktok'
 type PlatformInfo = {
   icon: IconType
   platform: Platform
@@ -46,6 +48,11 @@ const iconMapper: { [key: string]: PlatformInfo } = {
     icon: TelegramIcon,
     platform: 'telegram',
     label: 'Telegram',
+  },
+  '((?:tiktok.com)|(?:douyin.com))': {
+    icon: TikTokIcon,
+    platform: 'tiktok',
+    label: 'TikTok',
   },
   '(?:bilibili.com)': {
     icon: BilibiliIcon,

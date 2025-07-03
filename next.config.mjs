@@ -24,38 +24,23 @@ const nextConfig = {
   redirects() {
     return [
       {
-        "source": "/twitter",
-        "destination": "https://x.com/thecalicastle",
-        "permanent": true
-      },
-      {
-        "source": "/x",
-        "destination": "https://x.com/thecalicastle",
-        "permanent": true
-      },
-      {
         "source": "/youtube",
-        "destination": "https://youtube.com/@calicastle",
-        "permanent": true
-      },
-      {
-        "source": "/tg",
-        "destination": "https://t.me/cali_so",
-        "permanent": true
-      },
-      {
-        "source": "/linkedin",
-        "destination": "https://www.linkedin.com/in/calicastle/",
-        "permanent": true
-      },
-      {
-        "source": "/github",
-        "destination": "https://github.com/CaliCastle",
+        "destination": "https://www.youtube.com/@sneakinstantkill",
         "permanent": true
       },
       {
         "source": "/bilibili",
-        "destination": "https://space.bilibili.com/8350251",
+        "destination": "https://space.bilibili.com/775788",
+        "permanent": true
+      },
+      {
+        "source": "/douyin",
+        "destination": "https://v.douyin.com/3P1CgsjGy20/",
+        "permanent": true
+      },
+      {
+        "source": "/kuaishou",
+        "destination": "https://www.kuaishou.com/profile/3x2a5b8erkvttek",
         "permanent": true
       }
     ]
