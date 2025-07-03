@@ -90,14 +90,14 @@ export function Headline() {
           platform="bilibili"
         />
         <SocialLink
-          href="https://sikfilm.com/youtube"
-          aria-label="我们的 YouTube"
-          platform="youtube"
-        />
-        <SocialLink
           href="https://sikfilm.com/tiktok"
           aria-label="我们的 抖音"
           platform="tiktok"
+        />
+        <SocialLink
+          href="https://sikfilm.com/youtube"
+          aria-label="我们的 YouTube"
+          platform="youtube"
         />
         <SocialLink href="/feed.xml" platform="rss" aria-label="RSS 订阅" />
         <SocialLink
