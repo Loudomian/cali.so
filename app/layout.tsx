@@ -1,6 +1,7 @@
 import './globals.css'
 import './clerk.css'
 import './prism.css'
+import Script from 'next/script'
 
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata, Viewport } from 'next'
@@ -85,6 +86,11 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
+          <Script
+            src="https://collect.sikfilm.com/script.js"
+            data-website-id="032f44aa-3462-402e-ae26-f2de691491a1"
+            strategy="lazyOnload" // "defer" 属性对应 "lazyOnload" 策略，在浏览器空闲时加载
+          />
         </body>
       </html>
     </ClerkProvider>
