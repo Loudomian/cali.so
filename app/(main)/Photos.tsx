@@ -65,7 +65,7 @@ export function Photos({ photos }: { photos: string[] }) {
               alt=""
               width={500}
               height={500}
-              sizes="(min-width: 640px) 18rem, 11rem"
+              sizes="(min-width: 640px) 30vw, 50vw"
               className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
               priority
             />

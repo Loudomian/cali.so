@@ -32,7 +32,7 @@ function OCD() {
   return (
     <span className="group inline-flex items-center">
       <SparkleIcon className="mr-1 inline-flex transform-gpu transition-transform duration-500 group-hover:rotate-180" />
-      <span>爆肝中</span>
+      <span>爆肝中！</span>
     </span>
   )
 }
