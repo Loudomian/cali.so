@@ -1,10 +1,10 @@
 import './globals.css'
 import './clerk.css'
 import './prism.css'
-import Script from 'next/script'
 
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
 
 import { ThemeProvider } from '~/app/(main)/ThemeProvider'
 import { url } from '~/lib'
