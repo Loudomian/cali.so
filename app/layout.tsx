@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: 'SIKFilm',
     locale: 'zh_CN',
     type: 'website',
-    url: 'https://cali.so',
+    url: 'https://sikfilm.com',
   },
   twitter: {
     site: '@thecalicastle',
