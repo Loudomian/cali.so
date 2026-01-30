@@ -1,6 +1,5 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
-
 import { serialize } from 'next-mdx-remote/serialize'
 import remarkGfm from 'remark-gfm'
 
@@ -105,7 +104,8 @@ export default async function BlogPage({
 
   const mdxSource = await serialize(post.body, {
     mdxOptions: {
-      remarkPlugins: post.slug === 'df-bgm' ? [remarkGfm as any] : [],
+      // @ts-expect-error remark-gfm version mismatch
+      remarkPlugins: post.slug === 'df-bgm' ? [remarkGfm] : [],
     },
   })
 

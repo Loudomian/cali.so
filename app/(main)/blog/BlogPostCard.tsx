@@ -4,7 +4,6 @@ import Link from 'next/link'
 import {
   CalendarIcon,
   CursorClickIcon,
-  HourglassIcon,
   ScriptIcon,
   SparkleIcon,
 } from '~/assets'
@@ -13,7 +12,7 @@ import { prettifyNumber } from '~/lib/math'
 import { type Post } from '~/lib/posts'
 
 export function BlogPostCard({ post, views }: { post: Post; views: number }) {
-  const { title, slug, mainImage, publishedAt, categories, readingTime } = post
+  const { title, slug, mainImage, publishedAt, categories } = post
 
   return (
     <Link

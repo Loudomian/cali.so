@@ -1,5 +1,6 @@
 'use client'
 
+import { type MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
@@ -43,7 +44,7 @@ export function BlogPostPage({
   views?: number
   reactions?: number[]
   relatedViews: number[]
-  mdxSource?: any // MDXRemoteSerializeResult
+  mdxSource?: MDXRemoteSerializeResult
 }) {
   return (
     <Container className="mt-16 lg:mt-32">

@@ -1,7 +1,5 @@
-'use client'
-
-import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { clsxm as cn } from '@zolplay/utils'
 
@@ -184,7 +182,7 @@ export function MusicPlayer({ episodes }: { episodes: Episode[] }) {
 
     const handleTrackEnd = () => {
         if (loopMode === 'one') {
-            audioRef.current?.play()
+            audioRef.current?.play().catch(() => setIsPlaying(false))
             return
         }
 

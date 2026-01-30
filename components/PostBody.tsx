@@ -1,12 +1,11 @@
 'use client'
 
 import Image from 'next/image'
+import { MDXRemote, type MDXRemoteSerializeResult } from 'next-mdx-remote'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import remarkGfm from 'remark-gfm'
-
-import { MDXRemote } from 'next-mdx-remote'
 
 import { ClipboardCheckIcon, ClipboardDataIcon } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
@@ -86,7 +85,7 @@ function CodeBlock({
 }
 
 const components = {
-    a: ({ href, children }: any) => (
+    a: ({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
         <PeekabooLink href={href || '#'}>{children}</PeekabooLink>
     ),
     code: ({ className, children, inline }: any) => {
@@ -111,7 +110,7 @@ const components = {
     MusicPlayer,
 }
 
-export function PostBody({ children, mdxSource }: { children: string; mdxSource?: any }) {
+export function PostBody({ children, mdxSource }: { children: string; mdxSource?: MDXRemoteSerializeResult }) {
     if (mdxSource) {
         return <MDXRemote {...mdxSource} components={components} />
     }
