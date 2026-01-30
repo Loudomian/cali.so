@@ -1,0 +1,29 @@
+﻿   鈻?Next.js 14.1.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ 鉁?Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+node.exe : unhandledRejection Error [PageNotFoundError]: Cannot find module for page: /_document
+所在位置 行:1 字符: 1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (unhandledReject...age: /_document:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at getPagePath (F:\Github\cali.so\node_modules\.pnpm\next@14.1.3_react-dom@18.2.0_react@18.2.0__react@18.2.
+0\node_modules\next\dist\server\require.js:94:15)
+    at requirePage (F:\Github\cali.so\node_modules\.pnpm\next@14.1.3_react-dom@18.2.0_react@18.2.0__react@18.2.
+0\node_modules\next\dist\server\require.js:99:22)
+    at F:\Github\cali.so\node_modules\.pnpm\next@14.1.3_react-dom@18.2.0_react@18.2.0__react@18.2.0\node_module
+s\next\dist\server\load-components.js:72:65
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Promise.all (index 0)
+    at async loadComponentsImpl (F:\Github\cali.so\node_modules\.pnpm\next@14.1.3_react-dom@18.2.0_react@18.2.0
+__react@18.2.0\node_modules\next\dist\server\load-components.js:71:33)
+    at async Object.getDefinedNamedExports (F:\Github\cali.so\node_modules\.pnpm\next@14.1.3_react-dom@18.2.0_r
+eact@18.2.0__react@18.2.0\node_modules\next\dist\build\utils.js:1279:24) {
+  type: 'PageNotFoundError',
+  code: 'ENOENT'
+}

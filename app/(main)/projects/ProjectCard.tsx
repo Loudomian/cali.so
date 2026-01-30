@@ -11,11 +11,10 @@ import React from 'react'
 
 import { ExternalLinkIcon } from '~/assets'
 import { Card } from '~/components/ui/Card'
-import { urlForImage } from '~/sanity/lib/image'
-import { type Project } from '~/sanity/schemas/project'
+import { type Project } from '~/data/settings'
 
 export function ProjectCard({ project }: { project: Project }) {
-  const { _id, url, icon, name, description } = project
+  const { id, url, icon, name, description } = project
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -35,14 +34,14 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Card
       as="li"
-      key={_id}
+      key={id}
       onMouseEnter={() => setIsHovering(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setIsHovering(false)}
     >
       <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
         <Image
-          src={urlForImage(icon)?.size(100, 100).auto('format').url()}
+          src={icon}
           alt=""
           width={36}
           height={36}
@@ -88,3 +87,4 @@ export function ProjectCard({ project }: { project: Project }) {
     </Card>
   )
 }
+

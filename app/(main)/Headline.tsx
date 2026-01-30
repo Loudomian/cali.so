@@ -85,17 +85,17 @@ export function Headline() {
         }}
       >
         <SocialLink
-          href="https://sikfilm.com/bilibili"
+          href="/bilibili"
           aria-label="我们的 Bilibili"
           platform="bilibili"
         />
         <SocialLink
-          href="https://sikfilm.com/tiktok"
+          href="/douyin"
           aria-label="我们的 抖音"
           platform="tiktok"
         />
         <SocialLink
-          href="https://sikfilm.com/youtube"
+          href="/youtube"
           aria-label="我们的 YouTube"
           platform="youtube"
         />

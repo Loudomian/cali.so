@@ -1,12 +1,12 @@
 import { kvKeys } from '~/config/kv'
 import { env } from '~/env.mjs'
+import { getLatestPosts } from '~/lib/posts'
 import { redis } from '~/lib/redis'
-import { getLatestBlogPosts } from '~/sanity/queries'
 
 import { BlogPostCard } from './BlogPostCard'
 
 export async function BlogPosts({ limit = 5 }) {
-  const posts = await getLatestBlogPosts({ limit, forDisplay: true }) || []
+  const posts = getLatestPosts(limit)
   const postIdKeys = posts.map(({ _id }) => kvKeys.postViews(_id))
 
   let views: number[] = []
@@ -26,3 +26,4 @@ export async function BlogPosts({ limit = 5 }) {
     </>
   )
 }
+

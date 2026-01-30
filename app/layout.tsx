@@ -1,14 +1,11 @@
 import './globals.css'
-import './clerk.css'
 import './prism.css'
 
-import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 
 import { ThemeProvider } from '~/app/(main)/ThemeProvider'
 import { url } from '~/lib'
-import { zhCN } from '~/lib/clerkLocalizations'
 import { sansFont } from '~/lib/font'
 import { seo } from '~/lib/seo'
 
@@ -71,28 +68,26 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider localization={zhCN}>
-      <html
-        lang="zh-CN"
-        className={`${sansFont.variable} m-0 h-full p-0 font-sans antialiased`}
-        suppressHydrationWarning
-      >
-        <body className="flex h-full flex-col">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-          <Script
-            src="https://collect.sikfilm.com/script.js"
-            data-website-id="032f44aa-3462-402e-ae26-f2de691491a1"
-            strategy="lazyOnload" // "defer" 属性对应 "lazyOnload" 策略，在浏览器空闲时加载
-          />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html
+      lang="zh-CN"
+      className={`${sansFont.variable} m-0 h-full p-0 font-sans antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="flex h-full flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+        <Script
+          src="https://collect.sikfilm.com/script.js"
+          data-website-id="032f44aa-3462-402e-ae26-f2de691491a1"
+          strategy="lazyOnload"
+        />
+      </body>
+    </html>
   )
 }

@@ -6,23 +6,30 @@ import Image from 'next/image'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
 
+import { formatDate } from '~/lib/date'
+
 import { BlogPostStateLoader } from '~/app/(main)/blog/BlogPostStateLoader'
 import { BlogReactions } from '~/app/(main)/blog/BlogReactions'
 import {
+  BilibiliIcon,
   CalendarIcon,
   CursorClickIcon,
   HourglassIcon,
+  KuaishouIcon,
   PencilSwooshIcon,
   ScriptIcon,
+  SparkleIcon,
+  TikTokIcon,
   UTurnLeftIcon,
 } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
-import { PostPortableText } from '~/components/PostPortableText'
+import { PostBody } from '~/components/PostBody'
 import { Prose } from '~/components/Prose'
 import { Button } from '~/components/ui/Button'
 import { Container } from '~/components/ui/Container'
+import { ElegantTooltip } from '~/components/ui/Tooltip'
 import { prettifyNumber } from '~/lib/math'
-import { type PostDetail } from '~/sanity/schemas/post'
+import { type PostDetail } from '~/lib/posts'
 
 import { BlogPostCard } from './BlogPostCard'
 import { BlogPostTableOfContents } from './BlogPostTableOfContents'
@@ -70,7 +77,7 @@ export function BlogPostPage({
               >
                 <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/50 md:block md:after:block">
                   <Image
-                    src={post.mainImage.asset.url}
+                    src={post.mainImage.url}
                     alt=""
                     className="select-none"
                     unoptimized
@@ -79,11 +86,11 @@ export function BlogPostPage({
                   />
                 </div>
                 <Image
-                  src={post.mainImage.asset.url}
+                  src={post.mainImage.url}
                   alt={post.title}
                   className="select-none rounded-2xl ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 md:rounded-3xl"
-                  placeholder="blur"
-                  blurDataURL={post.mainImage.asset.lqip}
+                  placeholder={post.mainImage.lqip ? 'blur' : 'empty'}
+                  blurDataURL={post.mainImage.lqip}
                   unoptimized
                   fill
                 />
@@ -106,11 +113,15 @@ export function BlogPostPage({
                 >
                   <CalendarIcon />
                   <span>
-                    {parseDateTime({
-                      date: new Date(post.publishedAt),
-                    })?.format('YYYY/MM/DD')}
+                    {formatDate(post.publishedAt)}
                   </span>
                 </time>
+                {post.pin && (
+                  <span className="inline-flex items-center space-x-1.5 text-lime-600 dark:text-lime-400">
+                    <SparkleIcon className="h-4 w-4" />
+                    <span>置顶文章</span>
+                  </span>
+                )}
                 <span className="inline-flex items-center space-x-1.5">
                   <ScriptIcon />
                   <span>{post.categories?.join(', ')}</span>
@@ -168,10 +179,54 @@ export function BlogPostPage({
                   <HourglassIcon />
                   <span>{post.readingTime.toFixed(0)}分钟阅读</span>
                 </span>
+
+                {(post.bilibili || post.douyin || post.kuaishou) && (
+                  <div className="flex items-center space-x-2 border-l border-zinc-200 pl-4 dark:border-zinc-800">
+                    <span className="hidden text-xs font-medium text-zinc-500 md:inline-block">
+                      在此观看视频：
+                    </span>
+                    {post.bilibili && (
+                      <ElegantTooltip content="在 Bilibili 观看">
+                        <Button
+                          href={post.bilibili}
+                          target="_blank"
+                          variant="secondary"
+                          className="h-8 w-8 !p-0"
+                        >
+                          <BilibiliIcon className="h-4 w-4" />
+                        </Button>
+                      </ElegantTooltip>
+                    )}
+                    {post.douyin && (
+                      <ElegantTooltip content="在 抖音 观看">
+                        <Button
+                          href={post.douyin}
+                          target="_blank"
+                          variant="secondary"
+                          className="h-8 w-8 !p-0"
+                        >
+                          <TikTokIcon className="h-4 w-4" />
+                        </Button>
+                      </ElegantTooltip>
+                    )}
+                    {post.kuaishou && (
+                      <ElegantTooltip content="在 快手 观看">
+                        <Button
+                          href={post.kuaishou}
+                          target="_blank"
+                          variant="secondary"
+                          className="h-8 w-8 !p-0"
+                        >
+                          <KuaishouIcon className="h-4 w-4" />
+                        </Button>
+                      </ElegantTooltip>
+                    )}
+                  </div>
+                )}
               </motion.div>
             </header>
             <Prose className="mt-8">
-              <PostPortableText value={post.body} />
+              <PostBody>{post.body}</PostBody>
             </Prose>
           </article>
         </div>

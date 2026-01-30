@@ -9,6 +9,7 @@ import {
   BilibiliIcon,
   GitHubIcon,
   type IconProps,
+  KuaishouIcon,
   MailIcon,
   TelegramIcon,
   TikTokIcon,
@@ -27,12 +28,13 @@ type Platform =
   | 'mail'
   | 'rss'
   | 'tiktok'
+  | 'kuaishou'
 type PlatformInfo = {
   icon: IconType
   platform: Platform
   label: string
 }
-const iconMapper: { [key: string]: PlatformInfo } = {
+export const iconMapper: { [key: string]: PlatformInfo } = {
   '(?:github.com)': { icon: GitHubIcon, platform: 'github', label: 'GitHub' },
   '((?:t.co)|(?:twitter.com))': {
     icon: TwitterIcon,
@@ -54,6 +56,11 @@ const iconMapper: { [key: string]: PlatformInfo } = {
     platform: 'tiktok',
     label: 'TikTok',
   },
+  '((?:kuaishou.com))': {
+    icon: KuaishouIcon,
+    platform: 'kuaishou',
+    label: '快手',
+  },
   '(?:bilibili.com)': {
     icon: BilibiliIcon,
     platform: 'bilibili',
@@ -63,10 +70,10 @@ const iconMapper: { [key: string]: PlatformInfo } = {
   '(?:feed.xml)': { icon: AtomIcon, platform: 'rss', label: 'RSS 订阅' },
 }
 
-function getIconForUrl(url: string): PlatformInfo | undefined {
+export function getIconForUrl(url: string): PlatformInfo | undefined {
   for (const regexStr in iconMapper) {
     const regex = new RegExp(
-      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:www.)?` + regexStr
+      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:[^/]+\\.)?` + regexStr
     )
     if (regex.test(url)) {
       return iconMapper[regexStr]

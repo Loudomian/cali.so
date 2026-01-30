@@ -23,6 +23,12 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
       [href, hrefHost]
     )
 
+    // Check if we have a local icon for this URL
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { getIconForUrl } = require('~/components/links/SocialLink') as typeof import('~/components/links/SocialLink')
+    const platformInfo = getIconForUrl(href)
+    const PlatformIcon = platformInfo?.icon
+
     // if it's a relative link, use a fallback Link
     if (!href.startsWith('http')) {
       return (
@@ -44,24 +50,32 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
         target="_blank"
         {...props}
       >
-        {favicon && faviconUrl && (
-          <span
-            className={clsxm(
-              'mr-px inline-flex translate-y-0.5',
-              hostsThatNeedInvertedFavicons.includes(hrefHost) && 'dark:invert'
-            )}
-          >
-            <Image
-              src={faviconUrl}
-              alt=""
-              aria-hidden="true"
-              className="inline h-4 w-4 rounded"
-              width={16}
-              height={16}
-              unoptimized
-              priority={false}
-            />
-          </span>
+        {favicon && (
+          PlatformIcon ? (
+            <span className="mr-px inline-flex translate-y-0.5">
+              <PlatformIcon className="inline h-4 w-4" />
+            </span>
+          ) : (
+            faviconUrl && (
+              <span
+                className={clsxm(
+                  'mr-px inline-flex translate-y-0.5',
+                  hostsThatNeedInvertedFavicons.includes(hrefHost) && 'dark:invert'
+                )}
+              >
+                <Image
+                  src={faviconUrl}
+                  alt=""
+                  aria-hidden="true"
+                  className="inline h-4 w-4 rounded"
+                  width={16}
+                  height={16}
+                  unoptimized
+                  priority={false}
+                />
+              </span>
+            )
+          )
         )}
 
         {children}

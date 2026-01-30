@@ -2,15 +2,15 @@ import React from 'react'
 
 import { BlogPosts } from '~/app/(main)/blog/BlogPosts'
 import { Headline } from '~/app/(main)/Headline'
-import { Newsletter } from '~/app/(main)/Newsletter'
 import { Photos } from '~/app/(main)/Photos'
 import { Resume } from '~/app/(main)/Resume'
 import { PencilSwooshIcon } from '~/assets'
+import { SocialStats } from '~/components/SocialStats'
 import { Container } from '~/components/ui/Container'
-import { getSettings } from '~/sanity/queries'
+import { getSettings } from '~/data/settings'
 
-export default async function BlogHomePage() {
-  const settings = await getSettings()
+export default function BlogHomePage() {
+  const settings = getSettings()
 
   return (
     <>
@@ -18,7 +18,7 @@ export default async function BlogHomePage() {
         <Headline />
       </Container>
 
-      {settings?.heroPhotos && <Photos photos={settings.heroPhotos} />}
+      {settings.heroPhotos.length > 0 && <Photos photos={settings.heroPhotos} />}
 
       <Container className="mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
@@ -30,8 +30,8 @@ export default async function BlogHomePage() {
             <BlogPosts />
           </div>
           <aside className="space-y-10 lg:sticky lg:top-8 lg:h-fit lg:pl-16 xl:pl-20">
-            <Newsletter />
-            {settings?.resume && <Resume resume={settings.resume} />}
+            <SocialStats />
+            {settings.resume.length > 0 && <Resume resume={settings.resume} />}
           </aside>
         </div>
       </Container>
@@ -40,3 +40,4 @@ export default async function BlogHomePage() {
 }
 
 export const revalidate = 60
+

@@ -5,15 +5,15 @@ import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
 import { kvKeys } from '~/config/kv'
 import { env } from '~/env.mjs'
 import { url } from '~/lib'
+import { getAllPostSlugs, getPostBySlug, getRelatedPosts } from '~/lib/posts'
 import { redis } from '~/lib/redis'
-import { getBlogPost } from '~/sanity/queries'
 
-export const generateMetadata = async ({
+export const generateMetadata = ({
   params,
 }: {
   params: { slug: string }
 }) => {
-  const post = await getBlogPost(params.slug)
+  const post = getPostBySlug(params.slug)
   if (!post) {
     notFound()
   }
@@ -28,7 +28,7 @@ export const generateMetadata = async ({
       description,
       images: [
         {
-          url: mainImage.asset.url,
+          url: mainImage.url,
         },
       ],
       type: 'article',
@@ -36,7 +36,7 @@ export const generateMetadata = async ({
     twitter: {
       images: [
         {
-          url: mainImage.asset.url,
+          url: mainImage.url,
         },
       ],
       title,
@@ -53,10 +53,14 @@ export default async function BlogPage({
 }: {
   params: { slug: string }
 }) {
-  const post = await getBlogPost(params.slug)
+  const post = getPostBySlug(params.slug)
   if (!post) {
     notFound()
   }
+
+  // 获取相关文章
+  const related = getRelatedPosts(post, 3)
+  const postWithRelated = { ...post, related }
 
   let views: number
   if (env.VERCEL_ENV === 'production') {
@@ -87,18 +91,18 @@ export default async function BlogPage({
   }
 
   let relatedViews: number[] = []
-  if (typeof post.related !== 'undefined' && post.related.length > 0) {
+  if (related.length > 0) {
     if (env.VERCEL_ENV === 'development') {
-      relatedViews = post.related.map(() => Math.floor(Math.random() * 1000))
+      relatedViews = related.map(() => Math.floor(Math.random() * 1000))
     } else {
-      const postIdKeys = post.related.map(({ _id }) => kvKeys.postViews(_id))
+      const postIdKeys = related.map(({ _id }) => kvKeys.postViews(_id))
       relatedViews = await redis.mget<number[]>(...postIdKeys)
     }
   }
 
   return (
     <BlogPostPage
-      post={post}
+      post={postWithRelated}
       views={views}
       relatedViews={relatedViews}
       reactions={reactions.length > 0 ? reactions : undefined}
@@ -107,3 +111,9 @@ export default async function BlogPage({
 }
 
 export const revalidate = 60
+
+export function generateStaticParams() {
+  const slugs = getAllPostSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
+

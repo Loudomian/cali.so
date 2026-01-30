@@ -1,4 +1,3 @@
-import { authMiddleware } from '@clerk/nextjs'
 import { get } from '@vercel/edge-config'
 import { type NextRequest, NextResponse } from 'next/server'
 
@@ -9,10 +8,10 @@ import { getIP } from '~/lib/ip'
 import { redis } from '~/lib/redis'
 
 export const config = {
-  matcher: ['/((?!_next|studio|.*\\..*).*)'],
+  matcher: ['/((?!_next|.*\\..*).*)'],
 }
 
-async function beforeAuthMiddleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const { geo, nextUrl } = req
   const isApi = nextUrl.pathname.startsWith('/api/')
 
@@ -28,13 +27,10 @@ async function beforeAuthMiddleware(req: NextRequest) {
         )
       }
 
-      nextUrl.pathname = '/blocked'
-      return NextResponse.rewrite(nextUrl)
-    }
-
-    if (nextUrl.pathname === '/blocked') {
-      nextUrl.pathname = '/'
-      return NextResponse.redirect(nextUrl)
+      return NextResponse.json(
+        { error: 'You have been blocked.' },
+        { status: 403 }
+      )
     }
   }
 
@@ -51,21 +47,3 @@ async function beforeAuthMiddleware(req: NextRequest) {
 
   return NextResponse.next()
 }
-
-export default authMiddleware({
-  beforeAuth: beforeAuthMiddleware,
-  publicRoutes: [
-    '/',
-    '/studio(.*)',
-    '/api(.*)',
-    '/blog(.*)',
-    '/confirm(.*)',
-    '/projects',
-    '/guestbook',
-    '/newsletters(.*)',
-    '/about',
-    '/rss',
-    '/feed',
-    '/ama',
-  ],
-})
