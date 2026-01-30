@@ -6,6 +6,7 @@ import Link, { type LinkProps } from 'next/link'
 import React from 'react'
 
 import { ExternalLinkIcon } from '~/assets'
+import { getIconForUrl } from '~/components/links/SocialLink'
 
 const hostsThatNeedInvertedFavicons = ['github.com']
 
@@ -24,8 +25,6 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
     )
 
     // Check if we have a local icon for this URL
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { getIconForUrl } = require('~/components/links/SocialLink') as typeof import('~/components/links/SocialLink')
     const platformInfo = getIconForUrl(href)
     const PlatformIcon = platformInfo?.icon
 

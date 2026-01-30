@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-
 import { clsxm as cn } from '@zolplay/utils'
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
 
 export interface Track {
     title: string

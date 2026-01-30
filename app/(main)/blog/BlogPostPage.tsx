@@ -1,8 +1,8 @@
 'use client'
 
-import { type MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { type MDXRemoteSerializeResult } from 'next-mdx-remote'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
 

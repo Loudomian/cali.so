@@ -9,8 +9,8 @@ import remarkGfm from 'remark-gfm'
 
 import { ClipboardCheckIcon, ClipboardDataIcon } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
-import { MusicPlayer } from '~/components/MusicPlayer'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
+import { MusicPlayer } from '~/components/MusicPlayer'
 import { ElegantTooltip } from '~/components/ui/Tooltip'
 
 function CodeBlock({
@@ -88,13 +88,13 @@ const components = {
     a: ({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
         <PeekabooLink href={href || '#'}>{children}</PeekabooLink>
     ),
-    code: ({ className, children, inline }: any) => {
+    code: ({ className, children, inline }: React.ComponentPropsWithoutRef<'code'> & { inline?: boolean }) => {
         if (inline) {
             return <code className={className}>{children}</code>
         }
         return <CodeBlock className={className}>{children}</CodeBlock>
     },
-    img: ({ src, alt }: any) => {
+    img: ({ src, alt }: React.ComponentPropsWithoutRef<'img'>) => {
         return (
             <div className="relative my-8 aspect-video w-full overflow-hidden rounded-xl">
                 <Image
@@ -118,7 +118,7 @@ export function PostBody({ children, mdxSource }: { children: string; mdxSource?
     return (
         <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            components={components as any}
+            components={components}
         >
             {children}
         </ReactMarkdown>

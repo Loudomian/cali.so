@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
 import { clsxm } from '@zolplay/utils'
 import Link from 'next/link'
+import React from 'react'
 
 const variantStyles = {
   primary:
