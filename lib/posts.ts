@@ -7,7 +7,6 @@
 
 import fs from 'fs'
 import path from 'path'
-
 import readingTime from 'reading-time'
 
 export type Post = {
