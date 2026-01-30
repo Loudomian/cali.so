@@ -52,7 +52,7 @@ export function Headline() {
         }}
       >
         <Developer />，<Designer />，
-        <span className="block h-2" />
+        <span className="block h-2 sm:hidden" />
         <OCD />
       </motion.h1>
       <motion.p
@@ -68,8 +68,9 @@ export function Headline() {
         }}
       >
         <Balancer>
-          潜行瞬鲨工作室，
-          白日造梦剧组，正在做些好玩又有影响力的作品。
+          <span className="whitespace-nowrap">潜行瞬鲨工作室</span>，
+          <span className="whitespace-nowrap">白日造梦剧组</span>
+          ，正在做些好玩又有影响力的作品。
         </Balancer>
       </motion.p>
       <motion.div

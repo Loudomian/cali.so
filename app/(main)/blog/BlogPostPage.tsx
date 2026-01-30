@@ -37,11 +37,13 @@ export function BlogPostPage({
   views,
   reactions,
   relatedViews,
+  mdxSource,
 }: {
   post: PostDetail
   views?: number
   reactions?: number[]
   relatedViews: number[]
+  mdxSource?: any // MDXRemoteSerializeResult
 }) {
   return (
     <Container className="mt-16 lg:mt-32">
@@ -94,7 +96,7 @@ export function BlogPostPage({
                 />
               </motion.div>
               <motion.div
-                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-600/80 dark:text-zinc-400/80"
+                className="flex w-full items-center space-x-4 overflow-x-auto text-sm font-medium text-zinc-600/80 scrollbar-none dark:text-zinc-400/80"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -107,20 +109,15 @@ export function BlogPostPage({
               >
                 <time
                   dateTime={post.publishedAt}
-                  className="flex items-center space-x-1.5"
+                  className="flex items-center space-x-1.5 whitespace-nowrap"
                 >
                   <CalendarIcon />
                   <span>
                     {formatDate(post.publishedAt)}
                   </span>
                 </time>
-                {post.pin && (
-                  <span className="inline-flex items-center space-x-1.5 text-lime-600 dark:text-lime-400">
-                    <SparkleIcon className="h-4 w-4" />
-                    <span>置顶文章</span>
-                  </span>
-                )}
-                <span className="inline-flex items-center space-x-1.5">
+
+                <span className="inline-flex items-center space-x-1.5 whitespace-nowrap">
                   <ScriptIcon />
                   <span>{post.categories?.join(', ')}</span>
                 </span>
@@ -137,7 +134,15 @@ export function BlogPostPage({
                   delay: 0.2,
                 }}
               >
-                <Balancer>{post.title}</Balancer>
+                <Balancer>
+                  {post.title}
+                  {post.pin && (
+                    <span className="ml-2 inline-flex -translate-y-1.5 align-middle items-center space-x-1 rounded-full bg-lime-500/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-lime-600 ring-1 ring-inset ring-lime-500/20 dark:text-lime-400 dark:ring-lime-500/30 whitespace-nowrap">
+                      <SparkleIcon className="h-3.5 w-3.5" />
+                      <span>置顶</span>
+                    </span>
+                  )}
+                </Balancer>
               </motion.h1>
               <motion.p
                 className="my-5 w-full text-sm font-medium text-zinc-500"
@@ -154,7 +159,7 @@ export function BlogPostPage({
                 {post.description}
               </motion.p>
               <motion.div
-                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-700/50 dark:text-zinc-300/50"
+                className="flex w-full items-center space-x-4 overflow-x-auto text-sm font-medium text-zinc-700/50 scrollbar-none dark:text-zinc-300/50"
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -166,14 +171,14 @@ export function BlogPostPage({
                 }}
               >
                 <span
-                  className="inline-flex items-center space-x-1.5"
+                  className="inline-flex items-center space-x-1.5 whitespace-nowrap"
                   title={views?.toString()}
                 >
                   <CursorClickIcon />
                   <span>{prettifyNumber(views ?? 0, true)}次点击</span>
                 </span>
 
-                <span className="inline-flex items-center space-x-1.5">
+                <span className="inline-flex items-center space-x-1.5 whitespace-nowrap">
                   <HourglassIcon />
                   <span>{post.readingTime.toFixed(0)}分钟阅读</span>
                 </span>
@@ -224,7 +229,9 @@ export function BlogPostPage({
               </motion.div>
             </header>
             <Prose className="mt-8">
-              <PostBody>{post.body}</PostBody>
+              <PostBody mdxSource={post.slug === 'df-bgm' ? mdxSource : undefined}>
+                {post.body}
+              </PostBody>
             </Prose>
           </article>
         </div>
@@ -239,28 +246,30 @@ export function BlogPostPage({
         </aside>
       </div>
 
-      {post.related && post.related.length > 0 ? (
-        <section className="mb-12 mt-32">
-          <h2 className="mb-6 flex items-center justify-center text-lg font-bold text-zinc-900 dark:text-zinc-100">
-            <PencilSwooshIcon className="h-5 w-5 flex-none" />
-            <span className="ml-2">相关文章</span>
-          </h2>
+      {
+        post.related && post.related.length > 0 ? (
+          <section className="mb-12 mt-32">
+            <h2 className="mb-6 flex items-center justify-center text-lg font-bold text-zinc-900 dark:text-zinc-100">
+              <PencilSwooshIcon className="h-5 w-5 flex-none" />
+              <span className="ml-2">相关文章</span>
+            </h2>
 
-          <div className="mt-6 grid grid-cols-1 justify-center gap-6 md:grid-cols-[repeat(auto-fit,75%)] lg:grid-cols-[repeat(auto-fit,45%)] lg:gap-8">
-            {post.related.map((post, idx) => (
-              <BlogPostCard
-                post={post}
-                views={relatedViews[idx] ?? 0}
-                key={post._id}
-              />
-            ))}
-          </div>
-        </section>
-      ) : null}
+            <div className="mt-6 grid grid-cols-1 justify-center gap-6 md:grid-cols-[repeat(auto-fit,75%)] lg:grid-cols-[repeat(auto-fit,45%)] lg:gap-8">
+              {post.related.map((post, idx) => (
+                <BlogPostCard
+                  post={post}
+                  views={relatedViews[idx] ?? 0}
+                  key={post._id}
+                />
+              ))}
+            </div>
+          </section>
+        ) : null
+      }
 
       <ClientOnly>
         <BlogPostStateLoader post={post} />
       </ClientOnly>
-    </Container>
+    </Container >
   )
 }

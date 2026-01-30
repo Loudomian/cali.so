@@ -1,6 +1,9 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+import { serialize } from 'next-mdx-remote/serialize'
+import remarkGfm from 'remark-gfm'
+
 import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
 import { kvKeys } from '~/config/kv'
 import { env } from '~/env.mjs'
@@ -100,12 +103,19 @@ export default async function BlogPage({
     }
   }
 
+  const mdxSource = await serialize(post.body, {
+    mdxOptions: {
+      remarkPlugins: post.slug === 'df-bgm' ? [remarkGfm as any] : [],
+    },
+  })
+
   return (
     <BlogPostPage
       post={postWithRelated}
       views={views}
       relatedViews={relatedViews}
       reactions={reactions.length > 0 ? reactions : undefined}
+      mdxSource={mdxSource}
     />
   )
 }

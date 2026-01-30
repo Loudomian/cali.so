@@ -6,8 +6,11 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import remarkGfm from 'remark-gfm'
 
+import { MDXRemote } from 'next-mdx-remote'
+
 import { ClipboardCheckIcon, ClipboardDataIcon } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
+import { MusicPlayer } from '~/components/MusicPlayer'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { ElegantTooltip } from '~/components/ui/Tooltip'
 
@@ -82,35 +85,41 @@ function CodeBlock({
     )
 }
 
-export function PostBody({ children }: { children: string }) {
+const components = {
+    a: ({ href, children }: any) => (
+        <PeekabooLink href={href || '#'}>{children}</PeekabooLink>
+    ),
+    code: ({ className, children, inline }: any) => {
+        if (inline) {
+            return <code className={className}>{children}</code>
+        }
+        return <CodeBlock className={className}>{children}</CodeBlock>
+    },
+    img: ({ src, alt }: any) => {
+        return (
+            <div className="relative my-8 aspect-video w-full overflow-hidden rounded-xl">
+                <Image
+                    src={src || ''}
+                    alt={alt || ''}
+                    fill
+                    className="object-contain" // Changed from object-cover to contain to avoid cropping if needed, or revert if preferred. Original was object-contain.
+                    unoptimized
+                />
+            </div>
+        )
+    },
+    MusicPlayer,
+}
+
+export function PostBody({ children, mdxSource }: { children: string; mdxSource?: any }) {
+    if (mdxSource) {
+        return <MDXRemote {...mdxSource} components={components} />
+    }
+
     return (
         <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            components={{
-                a: ({ href, children }) => (
-                    <PeekabooLink href={href || '#'}>{children}</PeekabooLink>
-                ),
-                code: ({ className, children, inline }) => {
-                    if (inline) {
-                        return <code className={className}>{children}</code>
-                    }
-                    return <CodeBlock className={className}>{children}</CodeBlock>
-                },
-                img: ({ src, alt }) => {
-                    return (
-                        <div className="relative my-8 aspect-video w-full overflow-hidden rounded-xl">
-                            <Image
-                                src={src || ''}
-                                alt={alt || ''}
-                                fill
-                                className="object-contain"
-                                unoptimized
-                            />
-                        </div>
-                    )
-                },
-                // Headings with anchors can be implemented here if needed but skipping for simplicity now
-            }}
+            components={components as any}
         >
             {children}
         </ReactMarkdown>

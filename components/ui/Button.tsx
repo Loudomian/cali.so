@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react'
 import { clsxm } from '@zolplay/utils'
 import Link from 'next/link'
 
@@ -18,12 +19,10 @@ type SharedProps = {
   className?: string
 }
 type ButtonProps = SharedProps & (NativeButtonProps | NativeLinkProps)
-export function Button({
-  variant = 'primary',
-  className,
-  href,
-  ...props
-}: ButtonProps) {
+export const Button = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  ButtonProps
+>(({ variant = 'primary', className, href, ...props }, ref) => {
   const cn = clsxm(
     'inline-flex items-center gap-2 justify-center rounded-lg py-2 px-3 text-sm outline-offset-2 transition active:transition-none',
     variantStyles[variant],
@@ -31,8 +30,18 @@ export function Button({
   )
 
   return href ? (
-    <Link href={href} className={cn} {...(props as any)} />
+    <Link
+      href={href}
+      className={cn}
+      {...(props as any)}
+      ref={ref as React.Ref<HTMLAnchorElement>}
+    />
   ) : (
-    <button className={cn} {...(props as any)} />
+    <button
+      className={cn}
+      {...(props as any)}
+      ref={ref as React.Ref<HTMLButtonElement>}
+    />
   )
-}
+})
+Button.displayName = 'Button'
